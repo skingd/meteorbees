@@ -1,0 +1,64 @@
+<head>
+  <title>MeteorBees</title>
+</head>
+
+<body>
+{{#if isPage 'miteForm'}}
+    {{>miteForm}}
+{{/if}}
+
+{{#if isPage 'viewSamples'}}
+    {{>viewSamples}}
+{{/if}}
+
+    <br>
+    <button class="option btn btn-info" data-page="miteForm">New Mite Count</button>
+    <button class="option btn btn-warning" data-page="viewSamples">View Samples</button>
+
+</body>
+
+<template name="miteForm">
+    <h1>Submit a Mite Count</h1>
+    <form>
+        <div class="form-group">
+        <input type="text" name="hiveName"/>
+            <label for="hiveName">Hive Name</label>
+    </div>
+        <div class="form-group">
+            <input type="date" name="sampleDate"/>
+            <label for="sampleDate">Observation Date</label>
+        </div>
+        <div class="form-group">
+            <input type="number" name="sampleDuration"/>
+            <label for="sampleDuration">Duration of the Observation</label>
+        </div>
+        <div class="form-group">
+            <input type="number" name="miteCount"/>
+            <label for="miteCount">Mite Count</label>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+       <!-- <a href="#" class="btn btn-warning" name="data-btn" role="button">Show Data</a>-->
+    </form>
+</template>
+
+<template name="viewSamples">
+    <table>
+        <tr>
+            <th>Hive ID</th>
+            <th>Mites</th>
+            <th>Sample Date</th>
+            <th>Sample Duration</th>
+            <th>Posted On</th>
+        </tr>
+    {{#each samples}}
+        <tr>
+            <td>{{hiveName}}</td>
+            <td>{{mites}}</td>
+            <td>{{sampleDate}}</td>
+            <td>{{sampleDuration}}</td>
+           <!-- <td>{{createdOn}}</td>-->
+        </tr>
+        {{/each}}
+    </table>
+
+</template>
