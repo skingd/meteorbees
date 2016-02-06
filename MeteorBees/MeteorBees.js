@@ -1,33 +1,29 @@
 Samples = new Mongo.Collection("samples");
 
+Router.route('/', function(){
+   this.render('miteForm');
+    this.layout('layout');
+});
+
+Router.route("/viewSamples", function(){
+   this.render('viewSamples');
+    this.layout('layout');
+});
+
+
 if (Meteor.isClient) {
 
-Meteor.subscribe("samples");
+    Meteor.subscribe("samples");
 
-    Session.setDefault('page', 'miteCount');
-
-    UI.body.helpers({
-        isPage: function(page){
-            return Session.equals('page', page)
-        }
-    })
-
-    UI.body.events({
-
-        'click .option': function(event, template){
-            Session.set('page', event.currentTarget.getAttribute('data-page'))
-        }
-    })
-
-    Template.miteForm.helpers({
-        "samples": function(){
+    Template.viewSamples.helpers({
+        "samples": function () {
             //Return all values or empty if database is invalid
             return Samples.find({}, {sort: {createdOn: -1}}) || {};
         }
     });
 
     Template.miteForm.events({
-        "submit form": function(event){
+        "submit form": function (event) {
             event.preventDefault();
 
 
@@ -36,16 +32,21 @@ Meteor.subscribe("samples");
             var sampleDate = $(event.target).find('input[name=sampleDate]');
             var sampleDuration = $(event.target).find('input[name=sampleDuration]');
             var miteCount = $(event.target).find('input[name=miteCount]');
-           // var createdOn = null;
+            // var createdOn = null;
+
+            var hiveNameText = hiveName.val();
+            var sampleDateText = sampleDate.val();
+            var sampleDurationText = sampleDuration.val();
+            var miteCountText = miteCount.val();
 
             //If all of the above forms have content, load the values into the database
-            if(hiveName.length > 0 && sampleDate.length > 0 && sampleDuration.length > 0 && miteCount.length > 0){
+            if (hiveName.length > 0 && sampleDate.length > 0 && sampleDuration.length > 0 && miteCount.length > 0) {
                 Samples.insert({
-                   hiveName: hiveName,
-                   sampleDate: sampleDate,
-                   sampleDuration: sampleDuration,
-                   miteCount: miteCount,
-                   //createdOn: date.now()
+                    hiveName: hiveNameText,
+                    sampleDate: sampleDateText,
+                    sampleDuration: sampleDurationText,
+                    miteCount: miteCountText,
+                    //createdOn: date.now()
                 });
 
                 //Once inserted, reset fields to blank
@@ -53,13 +54,20 @@ Meteor.subscribe("samples");
                 sampleDate.val("");
                 sampleDuration.val("");
                 miteCount.val("");
-            }else{
+            } else {
                 //add some messages here
             }
         }
     });
 
-    Template.viewSamples.rendered
+    Template.dataButton.events({
+
+        //Go to sample page
+        'click #data-btn': function () {
+            event.preventDefault();
+            Router.go('/viewSamples');
+        }
+    });
 }
 
 if (Meteor.isServer) {

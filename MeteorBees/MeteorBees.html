@@ -1,21 +1,8 @@
-<head>
-  <title>MeteorBees</title>
-</head>
-
-<body>
-{{#if isPage 'miteForm'}}
-    {{>miteForm}}
-{{/if}}
-
-{{#if isPage 'viewSamples'}}
-    {{>viewSamples}}
-{{/if}}
-
-    <br>
-    <button class="option btn btn-info" data-page="miteForm">New Mite Count</button>
-    <button class="option btn btn-warning" data-page="viewSamples">View Samples</button>
-
-</body>
+<template name="layout">
+    <body>
+    {{>yield}}
+    </body>
+</template>
 
 <template name="miteForm">
     <h1>Submit a Mite Count</h1>
@@ -37,7 +24,7 @@
             <label for="miteCount">Mite Count</label>
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
-       <!-- <a href="#" class="btn btn-warning" name="data-btn" role="button">Show Data</a>-->
+        {{>dataButton}}
     </form>
 </template>
 
@@ -61,4 +48,8 @@
         {{/each}}
     </table>
 
+</template>
+
+<template name="dataButton">
+    <a href="#" class="btn btn-warning" id="data-btn" role="button">Show Data</a>
 </template>
