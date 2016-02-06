@@ -11,6 +11,7 @@ Router.route("/viewSamples", function(){
 });
 
 
+
 if (Meteor.isClient) {
 
     Meteor.subscribe("samples");
