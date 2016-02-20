@@ -1,7 +1,7 @@
 Samples = new Mongo.Collection("samples");
 
 Router.route('/', function(){
-   this.render('miteForm');
+   this.render('home');
     this.layout('layout');
 });
 
@@ -11,10 +11,24 @@ Router.route("/viewSamples", function(){
 });
 
 
+Router.route('/hive/:_id', function() {
+    this.render('hive', {
+        data: function () {
+            return Samples.find({_id: this.params._id}).fetch();
+        }
+    });
+
+    this.layout('layout');
+},
+    {
+    name: 'hive.show'
+}
+);
 
 if (Meteor.isClient) {
 
     Meteor.subscribe("samples");
+    Meteor.subscribe("uniqueHive");
 
     Template.viewSamples.helpers({
         "samples": function () {
@@ -23,7 +37,13 @@ if (Meteor.isClient) {
         }
     });
 
-    Template.miteForm.events({
+    /*Template.hive.helpers({
+       'hive': function(){
+           return Samples.find({},{});
+       }
+    });*/
+
+    Template.home.events({
         "submit form": function (event) {
             event.preventDefault();
 
@@ -49,6 +69,10 @@ if (Meteor.isClient) {
                     miteCount: miteCountText,
                     //createdOn: date.now()
                 });
+
+
+
+                Router.go("/hive/" + hiveName);
 
                 //Once inserted, reset fields to blank
                 hiveName.val("");
@@ -79,4 +103,9 @@ if (Meteor.isServer) {
     Meteor.publish("samples", function(){
        return Samples.find();
     });
+
+    Meteor.publish("uniqueHive", function(){
+        return Samples.find({name: hiveName}).fetch();
+
+    })
 }

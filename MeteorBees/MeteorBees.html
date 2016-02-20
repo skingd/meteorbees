@@ -4,7 +4,7 @@
     </body>
 </template>
 
-<template name="miteForm">
+<template name="home">
     <h1>Submit a Mite Count</h1>
     <form>
         <div class="form-group">
@@ -52,4 +52,27 @@
 
 <template name="dataButton">
     <a href="#" class="btn btn-warning" id="data-btn" role="button">Show Data</a>
+</template>
+
+<template name="hive">
+
+    <table>
+        <tr>
+            <th>Hive ID</th>
+            <th>Mites</th>
+            <th>Sample Date</th>
+            <th>Sample Duration</th>
+            <th>Posted On</th>
+        </tr>
+
+{{#each uniqueHive}}
+    <tr>
+        <td>{{hiveName}}</td>
+        <td>{{mites}}</td>
+        <td>{{sampleDate}}</td>
+        <td>{{sampleDuration}}</td>
+        <!-- <td>{{createdOn}}</td>-->
+    </tr>
+{{/each}}
+        </table>
 </template>
