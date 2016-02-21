@@ -14,7 +14,7 @@ Router.route("/viewSamples", function(){
 Router.route('/hive/:_id', function() {
     this.render('hive', {
         data: function () {
-            return Samples.find({_id: this.params._id}).fetch();
+            return Samples.find({name: this.params.hiveName}).fetch();
         }
     });
 
